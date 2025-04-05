@@ -1,6 +1,6 @@
 class sitethrows
 {
-	public void login(int age) throws ClassNotFoundException,InstantiationException ,InterruptedException
+	public void login(int age) throws ClassNotFoundException,InstantiationException ,InterruptedException	
 	{
 		System.out.println("Welcome to our site");
 		if(age>=70)

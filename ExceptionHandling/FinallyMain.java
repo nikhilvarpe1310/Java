@@ -9,7 +9,7 @@ class FinallyMain
 			}catch(NullPointerException e)
 			{
 				System.out.println(e);	
-			} finally{
+			} finally
 				System.out.println("finally blocked");
 			}
 				System.out.println("program ended");
