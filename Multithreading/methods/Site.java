@@ -1,6 +1,6 @@
 class Site
 {
-	public static void doReservation()
+	public  void doReservation()
 	{
 		Thread t = Thread.currentThread();
 		for(int i=1;i<=10;i++)
