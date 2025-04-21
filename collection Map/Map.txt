@@ -1,0 +1,117 @@
+package com.demo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
+import com.model.Student;
+import com.model.StudentByIdASC;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+       Map<Student,Map<String,List>> students = new TreeMap(new StudentByIdASC());
+       Student s1 = new Student(1,"Nikhil","Sangamner",90.85);
+       Map<String,List>detailsOfS1 = new HashMap();
+       List<String> listOfImagesOfS1 = new ArrayList();
+       listOfImagesOfS1.add("img001.jpg");
+       listOfImagesOfS1.add("img002.jpg");
+       listOfImagesOfS1.add("img003.jpg");
+       listOfImagesOfS1.add("img004.jpg");
+       detailsOfS1.put("listOfImages",listOfImagesOfS1 );
+       List<String> listOfCertificatesOfS1 = new ArrayList();
+       listOfCertificatesOfS1.add("diploma in photography");
+       listOfCertificatesOfS1.add("diploma in portrait photography");
+       listOfCertificatesOfS1.add("certificates in disigning and animation");
+       detailsOfS1.put("listOfCertificates",listOfCertificatesOfS1 );
+       List<String> listOfAchievementsOfS1 = new ArrayList();
+       listOfAchievementsOfS1.add("youngest photographer");
+       listOfAchievementsOfS1.add("First rank in wild life photography");
+       listOfAchievementsOfS1.add("top magzine photography");
+       detailsOfS1.put("listOfAcheivements",listOfAchievementsOfS1 );
+       List<String> listOfReviewsOfS1 = new ArrayList();
+       listOfReviewsOfS1.add("nice student");
+       listOfReviewsOfS1.add("Brilient ");
+       detailsOfS1.put("listOfReviews",listOfReviewsOfS1 );
+       students.put(s1,detailsOfS1);
+       
+       Student s2 = new Student(2,"Vaibhav","Khandgaon",91.85);
+       Map<String,List>detailsOfS2 = new HashMap();
+       List<String> listOfImagesOfS2 = new ArrayList();
+       listOfImagesOfS2.add("img005.jpg");
+       listOfImagesOfS2.add("img006.jpg");
+       listOfImagesOfS2.add("img007.jpg");
+       listOfImagesOfS2.add("img008.jpg");
+       detailsOfS2.put("listOfImages",listOfImagesOfS2 );
+       List<String> listOfCertificatesOfS2 = new ArrayList();
+       listOfCertificatesOfS2.add("diploma in writing");
+       listOfCertificatesOfS2.add("diploma in script writing");
+       listOfCertificatesOfS2.add("certificates in novel writing");
+       detailsOfS2.put("listOfCertificates",listOfCertificatesOfS2 );
+       List<String> listOfAchievementsOfS2 = new ArrayList();
+       listOfAchievementsOfS2.add("1st price in email writing");
+       listOfAchievementsOfS2.add("First rank in history telling");
+       listOfAchievementsOfS2.add("top book seller");
+       detailsOfS2.put("listOfAcheivements",listOfAchievementsOfS2 );
+       List<String> listOfReviewsOfS2 = new ArrayList();
+       listOfReviewsOfS2.add("nice writing");
+       listOfReviewsOfS2.add("Amaizing story telling ");
+       detailsOfS2.put("listOfReviews",listOfReviewsOfS2 );
+       students.put(s1,detailsOfS2);
+    
+       Set<Student> student = students.keySet();
+       for(Student s:student)
+       {
+    	   System.out.println(s);
+    	   System.out.println("details");
+    	   Map<String, List> details =students.get(s);
+    	   System.out.println("images");
+    	   for(Object o:details.get("listOfImages"))
+    		   System.out.println(o+",");
+    	   System.out.println();
+    	   System.out.print("Certificates");
+    	   for(Object o:details.get("listOfCertificates"))
+    		   System.out.println(o+",");
+    	   System.out.println();
+    	   System.out.print("Achievements");
+    	   for(Object o:details.get("listOfAcheivements"))
+    		   System.out.println(o+",");
+    	   System.out.println();
+    	   System.out.print("Reviews");
+    	   for(Object o:details.get("listOfReviews"))
+    		   System.out.println(o+",");
+    	   System.out.println();
+    	   System.out.println("----------------------------------------------------------");
+    	   
+       }
+    	         
+    }
+}
+
+
+output:
+
+Student [id=2, name=Nikhil, city=Sangamner, percentage=90.85]
+details
+images
+img005.jpg,
+img006.jpg,
+img007.jpg,
+img008.jpg,
+
+Certificatesdiploma in writing,
+diploma in script writing,
+certificates in novel writing,
+
+Achievements1st price in email writing,
+First rank in history telling,
+top book seller,
+
+Reviewsnice writing,
+Amaizing story telling ,
+
+----------------------------------------------------------
