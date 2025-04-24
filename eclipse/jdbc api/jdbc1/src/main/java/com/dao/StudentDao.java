@@ -149,5 +149,37 @@ public class StudentDao {
 	    return list;	
 		
 	}
+	
+	public int updateStudent(Student s)
+	{
+		int check = 0;
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jap77", "root", "");
+			String sql = "update student set name=?,city=?,percentage=? where id=?";
+			pst = con.prepareStatement(sql);
+			pst.setString(1, s.getName());
+			pst.setString(2, s.getCity());
+			pst.setDouble(3, s.getPercentage());
+			pst.setInt(4, s.getId());
+			check = pst.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			e.printStackTrace();
+		}finally
+		{
+			try {
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}		}
+		
+		return check;
+	}
 
 }

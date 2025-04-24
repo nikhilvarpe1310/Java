@@ -12,10 +12,9 @@ public class App
     	StudentDao sd = new StudentDao();
     	
     	
-    	List<Student> list = sd.findAllStudent();
-    	for(Student s:list)
-    		System.out.println(s);
-    	
+    	Student s1 = sd.findStudentById(2);
+    	s1.setPercentage(82.78);
+    	System.out.println(sd.updateStudent(s1));
     	
     }
 }

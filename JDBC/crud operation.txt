@@ -1,3 +1,56 @@
+//Student.java
+
+package com.model;
+
+public class Student {
+	
+	private int id;
+	private String name;
+	private String city;
+	private double percentage;
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+	
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 //StudentDao.java
 
 package com.dao;
@@ -152,6 +205,38 @@ public class StudentDao {
 		
 	}
 
+public int updateStudent(Student s)
+	{
+		int check = 0;
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jap77", "root", "");
+			String sql = "update student set name=?,city=?,percentage=? where id=?";
+			pst = con.prepareStatement(sql);
+			pst.setString(1, s.getName());
+			pst.setString(2, s.getCity());
+			pst.setDouble(3, s.getPercentage());
+			pst.setInt(4, s.getId());
+			check = pst.executeUpdate();
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			
+			e.printStackTrace();
+		}finally
+		{
+			try {
+				pst.close();
+				con.close();
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}		}
+		
+		return check;
+	}
+
 }
 
 
@@ -251,4 +336,30 @@ public class App
     	
     }
 }
+
+
+//for update
+
+package com.demo;
+
+import java.util.List;
+
+import com.dao.StudentDao;
+import com.model.Student;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+    	StudentDao sd = new StudentDao();
+    	
+    	
+    	Student s1 = sd.findStudentById(2);
+    	s1.setPercentage(82.78);
+    	System.out.println(sd.updateStudent(s1));
+    	
+    }
+}
+
+
 
