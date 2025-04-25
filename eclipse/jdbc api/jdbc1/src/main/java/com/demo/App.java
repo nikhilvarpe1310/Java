@@ -13,7 +13,7 @@ public class App
     	
     	
     	Student s1 = sd.findStudentById(2);
-    	s1.setPercentage(82.78);
+    	s1.setPercentage(83.78);
     	System.out.println(sd.updateStudent(s1));
     	
     }
