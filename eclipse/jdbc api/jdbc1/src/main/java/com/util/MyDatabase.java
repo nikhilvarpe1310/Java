@@ -2,7 +2,6 @@ package com.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,29 +24,7 @@ public class MyDatabase {
 		 return con;
 	}
 	
-	public static void closeConnection(PreparedStatement pst,Connection con)
-	{
-		 try {
-			
-			pst.close();
-			con.close();
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-	}
-		 
-		 public static void closeConnection(ResultSet rs,PreparedStatement pst,Connection con)
-			{
-				 try {
-					 rs.close();
-					 closeConnection(pst,con);
-				} catch (SQLException e) {
-					
-					e.printStackTrace();
-				}
-			}
-
+	
 
 			public static List<Student> studentRowMapper(ResultSet rs) throws SQLException
 			{
@@ -62,5 +39,8 @@ public class MyDatabase {
 					list.add(s1);
 				}
 				return list;
+				
 			}
+		
+			
 }
