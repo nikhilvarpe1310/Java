@@ -1,0 +1,36 @@
+CREATE TABLE Students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL,
+    mobileNo CHAR(10),
+    email VARCHAR(40) UNIQUE,
+    address VARCHAR(50),
+    batch VARCHAR(10),
+    college VARCHAR(30),
+    department VARCHAR(20),
+    fees INT CHECK (fees < 30000),
+    javaMarks INT,
+    aptiMarks INT,
+    sqlMarks INT,
+    passoutYear YEAR,
+    DOB DATE,
+    admissionDate DATETIME DEFAULT NOW(),
+    placementStatus VARCHAR(10) DEFAULT 'Not_placed'
+);
+
+
+CREATE TABLE College (
+    collegeId INT PRIMARY KEY AUTO_INCREMENT,
+    collegeName VARCHAR(50),
+    city VARCHAR(30),
+    studentsCount INT
+);
+
+
+CREATE TABLE Product (
+    productId INT PRIMARY KEY AUTO_INCREMENT,
+    productName VARCHAR(50),
+    price DECIMAL(10, 2),
+    quantity INT,
+    expiryDate DATE
+    CHECK (expiryDate > CURRENT_DATE)
+);
