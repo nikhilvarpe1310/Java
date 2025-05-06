@@ -1,0 +1,38 @@
+// Display all products
+eg.
+method without chaining
+Session session = HBUtils.sf.openSession();
+       Transaction tx = session.beginTransaction();
+       
+      Query<Product> q = session.createQuery("from Product",Product.class);
+      List<Product> list = q.list();
+      for(Product p:list)
+       System.out.println(p);
+       
+       tx.commit();
+OR
+method with chaining
+Session session = HBUtils.sf.openSession();
+       Transaction tx = session.beginTransaction();
+       
+      List<Product> list = session.createQuery("from Product",Product.class)
+      .list();
+      for(Product p:list)
+    	System.out.println(p);
+       
+       tx.commit();
+
+
+//display product by id
+eg.
+ Query<Product> q = session.createQuery("from Product where id=:a",Product.class);
+       q.setParameter("a", 50);
+       Product p = q.uniqueResult();
+       System.out.println(p);
+
+OR
+
+Product p = session.createQuery("from Product where id=:a",Product.class)
+       .setParameter("a", 50)
+       .uniqueResult();
+       System.out.println(p);
