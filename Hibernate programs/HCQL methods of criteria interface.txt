@@ -1,0 +1,55 @@
+// find all product
+eg.
+
+       List<Product> list = c.list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+OR
+List<Product> list = session.createCriteria(Product.class)
+       .list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+//Find product by id
+eg.
+Criteria c = session.createCriteria(Product.class);
+       c.add(Restrictions.eq("id", 21)); 
+       Product p = (Product) c.uniqueResult();
+    	   System.out.println(p);
+
+OR
+ Product p =(Product) session.createCriteria(Product.class)
+    		  .add(Restrictions.eq("id", 21))
+      		  .uniqueResult();
+    	   System.out.println(p);
+
+//find product by prices less than
+eg.
+ Criteria c = session.createCriteria(Product.class);
+       c.add(Restrictions.lt("price", 1000.0));
+      List<Product> list = c.list();
+      for(Product p:list)
+    	  System.out.println(p);
+
+OR
+  List<Product> list = session.createCriteria(Product.class)
+    		   .add(Restrictions.lt("price", 1000.0))
+    		   .list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+//Find product by price between
+eg.	
+ Criteria c = session.createCriteria(Product.class);
+       		c.add(Restrictions.between("price", 1000.0,3000.0));
+          List<Product> list = c.list();
+          for(Product p:list)
+    	   System.out.println(p);
+    	   
+OR
+List<Product> list = session.createCriteria(Product.class)
+    		   .add(Restrictions.between("price", 1000.0,3000.0))
+    		   .list();
+       for(Product p:list)
+    	   System.out.println(p);

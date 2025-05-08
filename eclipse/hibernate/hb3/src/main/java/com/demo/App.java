@@ -2,9 +2,10 @@ package com.demo;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
+import org.hibernate.criterion.Restrictions;
 
 import com.model.Product;
 import com.util.HBUtils;
@@ -15,26 +16,13 @@ public class App
     {
        Session session = HBUtils.sf.openSession();
        Transaction tx = session.beginTransaction();
-       
-      List<Product> list =pagination2(session,2);
-      	for(Product p:list)
-      		System.out.println(p);
-       
-       tx.commit();
-       
+       List<Product> list = session.createCriteria(Product.class)
+    		   .add(Restrictions.between("price", 1000.0,3000.0))
+    		   .list();
+       for(Product p:list)
+    	   System.out.println(p);
+    	   
       
     }
     
-    public static List<Product> pagination2(Session session, int page)
-    {
-    	int size = 20;
-    	return session.createQuery("from Product",Product.class)
-    			.setFirstResult((page-1)*size)
-    			.setMaxResults(size)
-    			.list();
-    	
-    }
-    
-    
-    
-}
+ }
