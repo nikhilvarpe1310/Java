@@ -25,7 +25,7 @@ public class HBUtils {
 		p.setProperty("hibernate.connection.password", "");
 		p.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		p.setProperty("hibernate.hbm2ddl.auto", "update");
-		p.setProperty("hibernate.show_sql", "true");
+		p.setProperty("hibernate.show_sql", "false");
 		p.setProperty("hibernate.format_sql", "true");
 		return p;
 		

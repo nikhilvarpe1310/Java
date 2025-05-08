@@ -16,14 +16,25 @@ public class App
        Session session = HBUtils.sf.openSession();
        Transaction tx = session.beginTransaction();
        
-     Product p = session.createQuery("from Product where id=:a",Product.class)
-       .setParameter("a", 50)
-       .uniqueResult();
-       System.out.println(p);
+      List<Product> list =pagination2(session,2);
+      	for(Product p:list)
+      		System.out.println(p);
        
        tx.commit();
        
-       
       
     }
+    
+    public static List<Product> pagination2(Session session, int page)
+    {
+    	int size = 20;
+    	return session.createQuery("from Product",Product.class)
+    			.setFirstResult((page-1)*size)
+    			.setMaxResults(size)
+    			.list();
+    	
+    }
+    
+    
+    
 }

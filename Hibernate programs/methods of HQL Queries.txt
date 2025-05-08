@@ -36,3 +36,183 @@ Product p = session.createQuery("from Product where id=:a",Product.class)
        .setParameter("a", 50)
        .uniqueResult();
        System.out.println(p);
+
+//find product by type
+eg.
+ Query<Product> q = session.createQuery("from Product where type =:a",Product.class);
+       q.setParameter("a", "Stationery");
+       List<Product> list = q.list();
+       for(Product p:list)
+    	  System.out.println(p);
+
+//find product by id and type
+eg.
+ Query<Product> q = session.createQuery("from Product where id =:a and type =:b",Product.class);
+       q.setParameter("a", 12);
+       q.setParameter("b", "Stationery");
+       Product p = q.uniqueResult();
+    	  System.out.println(p);
+
+//find product by id or type
+eg.
+Query<Product> q = session.createQuery("from Product where id =:a or type =:b",Product.class);
+       q.setParameter("a", 12);
+       q.setParameter("b", "Stationery");
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//find product by price less than
+eg.
+Query<Product> q = session.createQuery("from Product where price <:a",Product.class);
+       q.setParameter("a", 10000.0);
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//find product by price between
+eg
+ Query<Product> q = session.createQuery("from Product where price between:a and :b",Product.class);
+       q.setParameter("a", 10000.0);
+       q.setParameter("b", 30000.0);
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//find product by price not between
+eg.
+Query<Product> q = session.createQuery("from Product where price not between:a and :b",Product.class);
+       q.setParameter("a", 10000.0);
+       q.setParameter("b", 30000.0);
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//find product by name like
+eg.
+ 
+       Query<Product> q = session.createQuery("from Product where name like :a",Product.class);
+       q.setParameter("a", "%ppp%");
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//display all names
+eg.
+Query<String> q = session.createQuery("select name from Product",String.class);
+       List<String> list = q.list();
+    	  for(String s:list)
+    	   System.out.println(s);
+
+//display first 10 records
+eg.
+Query<Product> q = session.createQuery("from Product ",Product.class);
+       q.setMaxResults(10);
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//skip 1st 10 and display next 10 records
+eg.
+Query<Product> q = session.createQuery("from Product ",Product.class);
+       q.setFirstResult(10);
+       q.setMaxResults(10);
+       List<Product> list = q.list();
+    	  for(Product p:list)
+    	   System.out.println(p);
+
+//pagination-1
+eg.
+package com.demo;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.model.Product;
+import com.util.HBUtils;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+       Session session = HBUtils.sf.openSession();
+       Transaction tx = session.beginTransaction();
+       
+       pagination1(session);
+       
+       tx.commit();
+       
+       
+    }
+    
+    public static void pagination1(Session session)
+    {
+    
+    	int page = 0;
+    	int size = 50;
+    	while(true)
+    	{
+    		Query<Product> q = session.createQuery("from Product",Product.class);
+    		q.setMaxResults(size);
+    		q.setFirstResult(page*size);
+    		List<Product> list = q.list();
+    		if(!list.isEmpty())
+    		{
+    			System.out.println("page no"+(++page));
+    			for(Product p:list)
+    				System.out.println(p);
+    			System.out.println("---------------------------------------------");
+    			
+    		}
+    		else
+    			break;
+    	}
+    }
+}
+
+
+//pagination-2
+eg.
+package com.demo;
+
+import java.util.List;
+
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import com.model.Product;
+import com.util.HBUtils;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+       Session session = HBUtils.sf.openSession();
+       Transaction tx = session.beginTransaction();
+       
+      List<Product> list =pagination2(session,2);
+      	for(Product p:list)
+      		System.out.println(p);
+       
+       tx.commit();
+       
+      
+    }
+    
+    public static List<Product> pagination2(Session session, int page)
+    {
+    	int size = 20;
+    	return session.createQuery("from Product",Product.class)
+    			.setFirstResult((page-1)*size)
+    			.setMaxResults(size)
+    			.list();
+    	
+    }
+    
+    
+    
+}
