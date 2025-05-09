@@ -53,3 +53,148 @@ List<Product> list = session.createCriteria(Product.class)
     		   .list();
        for(Product p:list)
     	   System.out.println(p);
+
+//find product by price not between
+eg.
+ Criteria c = session.createCriteria(Product.class);
+       c.add(Restrictions.not(Restrictions.between("price", 1000.0, 999000.0)));
+       List<Product> list = c.list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+OR
+ List<Product> list = session.createCriteria(Product.class)
+       .add(Restrictions.not(Restrictions.between("price", 1000.0, 999000.0)))
+       .list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+//find product by id and type
+eg.
+Product p =(Product) session.createCriteria(Product.class)
+    		  .add(Restrictions.and(Restrictions.eq("id", 11)).add(Restrictions.eq("type", "Automotive")))
+    		  .uniqueResult();
+       		System.out.println(p);
+
+OR
+Product p =(Product) session.createCriteria(Product.class)
+    		.add(Restrictions.eq("id", 11))
+    		.add(Restrictions.eq("type", "Automotive"))
+    		.uniqueResult();
+       		System.out.println(p);
+
+//find product by id or type
+eg.
+Criteria c = session.createCriteria(Product.class);
+       		c.add(Restrictions.or(Restrictions.eq("id", 11)).add(Restrictions.eq("type", "Automotive")));
+       		List<Product> list = c.list();
+       		for(Product p:list)
+       			System.out.println(p);
+
+OR
+
+       		List<Product> list = session.createCriteria(Product.class)
+       				.add(Restrictions.or(Restrictions.eq("id", 11))
+       				.add(Restrictions.eq("type", "Automotive")))
+       				.list();
+       		for(Product p:list)
+       			System.out.println(p);
+
+//find product by id in
+eg.
+List<Integer> id = new ArrayList();
+       id.add(10);
+       id.add(20);
+       id.add(30);
+       id.add(40);
+       id.add(50);
+       id.add(60);
+       Criteria c = session.createCriteria(Product.class);
+       if(!id.isEmpty())
+    	   c.add(Restrictions.in("id", id));
+       List<Product> list = c.list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+//find product by name like
+eg.
+Criteria c = session.createCriteria(Product.class);
+       c.add(Restrictions.like("name", "%ABC%"));
+       List<Product> list = c.list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+OR
+List<Product> list = session.createCriteria(Product.class)
+    		   .add(Restrictions.like("name", "%mmm%"))
+    		   .list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+
+//Display product order by desc
+eg.
+List<Product> list = session.createCriteria(Product.class)
+    		   .addOrder(Order.desc("price"))
+    		   .list();
+       for(Product p:list)
+    	   System.out.println(p);
+
+
+//Display highest price of product
+eg.
+double price =(double) session.createCriteria(Product.class)
+    		   .setProjection(Projections.max("price"))
+    		   .uniqueResult();
+       System.out.println(price);
+
+
+//Display all names
+eg.
+ List<String> names = session.createCriteria(Product.class)
+    		   .setProjection(Projections.property("name"))
+    		   .list();
+       for(String s:names)
+    	   System.out.println(s);
+
+//Highest price product
+eg.
+select * from product where price = (select max(price) from product);
+
+ Product p = (Product) session.createCriteria(Product.class)
+    		  .add(Restrictions.eq("price", session.createCriteria(Product.class)
+    		  .setProjection(Projections.max("price"))
+    		  .uniqueResult()))
+    		  .uniqueResult();
+      System.out.println(p);
+
+//Find second highest price product
+eg.
+select price from product where price =(select max(price) from product where price <(select max(price) from product));
+
+ Product p = (Product) session.createCriteria(Product.class)
+    		  .add(Restrictions.eq("price", session.createCriteria(Product.class)
+    		  .add(Restrictions.lt("price", session.createCriteria(Product.class)
+    		  .setProjection(Projections.max("price"))
+    		  .uniqueResult()))
+    		  .setProjection(Projections.max("price"))
+    		  .uniqueResult()))
+    		  .uniqueResult();
+      System.out.println(p);
+
+//Find second highest price product
+eg.
+select * from product where price = (select max(price) from product where price < (select max(price) from product where price < (select max(price) from product)));
+
+  Product p = (Product) session.createCriteria(Product.class)
+    		   .add(Restrictions.eq("price",session.createCriteria(Product.class)
+    		    .add(Restrictions.lt("price", session.createCriteria(Product.class)
+    		     .add(Restrictions.lt("price",session.createCriteria(Product.class)
+    		      .setProjection(Projections.max("price"))
+    		       .uniqueResult()))
+    		    .setProjection(Projections.max("price"))
+    		     .uniqueResult()))
+    		     .setProjection(Projections.max("price"))
+    		    .uniqueResult()))
+    		    .uniqueResult();
+	System.out.println(p);
