@@ -5,20 +5,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
-
-public class Product {
+public class Laptop {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String type;
 	@Column(columnDefinition = "double(10,2)")
 	private double price;
+	@OneToOne
+	private Student student;
+	public Student getStudent() {
+		return student;
+	}
+	public void setStudent(Student student) {
+		this.student = student;
+	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", type=" + type + ", price=" + price + "]";
+		return "Laptop [id=" + id + ", name=" + name + ", price=" + price + "]";
 	}
 	public int getId() {
 		return id;
@@ -32,17 +39,12 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
 	public double getPrice() {
 		return price;
 	}
 	public void setPrice(double price) {
 		this.price = price;
 	}
+	
 
 }

@@ -5,14 +5,16 @@ import java.util.Properties;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import com.model.Product;
+import com.model.Laptop;
+import com.model.Student;
 
 public class HBUtils {
 
 	
 	public static SessionFactory sf = new Configuration()
 			.setProperties(p1())
-			.addAnnotatedClass(Product.class)
+			.addAnnotatedClass(Student.class)
+			.addAnnotatedClass(Laptop.class)
 			.buildSessionFactory();
 	
 	private static Properties p1()
@@ -25,7 +27,7 @@ public class HBUtils {
 		p.setProperty("hibernate.connection.password", "");
 		p.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		p.setProperty("hibernate.hbm2ddl.auto", "update");
-		p.setProperty("hibernate.show_sql", "false");
+		p.setProperty("hibernate.show_sql", "true");
 		p.setProperty("hibernate.format_sql", "true");
 		return p;
 		
