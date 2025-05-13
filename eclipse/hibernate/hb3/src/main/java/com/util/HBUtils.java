@@ -9,6 +9,7 @@ import com.model.Department;
 import com.model.Gift;
 import com.model.Laptop;
 import com.model.Student;
+import com.model.Subject;
 
 public class HBUtils {
 
@@ -19,6 +20,7 @@ public class HBUtils {
 			.addAnnotatedClass(Laptop.class)
 			.addAnnotatedClass(Gift.class)
 			.addAnnotatedClass(Department.class)
+			.addAnnotatedClass(Subject.class)
 			.buildSessionFactory();
 	
 	private static Properties p1()

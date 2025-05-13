@@ -8,33 +8,24 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 @Entity
-public class Department {
+public class Subject {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	@OneToMany(mappedBy = "department")
-	private List<Student> students = new LinkedList();
-	@ManyToMany
-	private List<Subject> subjects = new LinkedList();
-	public List<Subject> getSubjects() {
-		return subjects;
+	@ManyToMany(mappedBy="subjects")
+	private List<Department> departments = new LinkedList();
+	public List<Department> getDepartments() {
+		return departments;
 	}
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
-	public List<Student> getStudents() {
-		return students;
-	}
-	public void setStudents(List<Student> students) {
-		this.students = students;
+	public void setDepartments(List<Department> departments) {
+		this.departments = departments;
 	}
 	@Override
 	public String toString() {
-		return "Department [id=" + id + ", name=" + name + "]";
+		return "Subject [id=" + id + ", name=" + name + "]";
 	}
 	public int getId() {
 		return id;
