@@ -1,0 +1,92 @@
+//Loosely couple Application
+//IdeaSim.java
+package com.sim;
+
+public class IdeaSim implements Sim {
+
+	public void startSim()
+	{
+		System.out.println("Welcome to Idea Network");
+	}
+}
+
+
+//Airtelsim.java
+package com.sim;
+
+public class AirtelSim implements Sim {
+
+	public void startSim()
+	{
+		System.out.println("Welcome to Airtel Network");
+	}
+}
+
+//RelianceSim.java
+package com.sim;
+
+public class RelianceSim implements Sim {
+
+	public void startSim()
+	{
+		System.out.println("Welcome to Reliance Network");
+	}
+}
+
+
+//RelianceMobile.java
+package com.mobile;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.sim.Sim;
+
+public class RelianceMobile {
+	
+	ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+
+	private Sim r = context.getBean(Sim.class);	
+	
+	public RelianceMobile()
+	{
+		startMobile();
+		r.startSim();
+	}
+	private void startMobile()
+	{
+		System.out.println("Welocome tonreliance mobile");
+	}
+}
+
+
+//Sim.java
+package com.sim;
+
+public interface Sim {
+
+	void startSim();
+}
+
+//bean.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+        <beans>
+        <bean id="obj" class="com.sim.IdeaSim"></bean>
+        </beans>
+
+
+//App.java
+package com.demo;
+
+import com.mobile.RelianceMobile;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        new RelianceMobile();
+    }
+}
+
