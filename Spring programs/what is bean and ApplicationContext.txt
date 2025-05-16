@@ -1,0 +1,79 @@
+//what is bean ?
+//Spring Container
+//App.java
+package com.demo;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.model.Student;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+        Student s1 = context.getBean("obj1",Student.class);
+        Student s2 = context.getBean("obj1",Student.class);
+        System.out.println(s1==s2);
+        Student s3 = context.getBean("obj2",Student.class);
+        Student s4 = context.getBean("obj2",Student.class);
+        System.out.println(s3==s4);
+        System.out.println(context.isSingleton("obj1"));
+        System.out.println(context.isSingleton("obj2"));
+        System.out.println(context.containsBean("obj1"));
+        System.out.println(context.containsBean("obj3"));
+        System.out.println(context.isTypeMatch("obj1", Student.class));
+    }
+}
+
+
+//Student.java
+package com.model;
+
+public class Student {
+	private int id;
+	private String name;
+	private String city;
+	private double percentage;
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+	
+
+}
+
+
+//bean.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+        <beans>
+        <bean id="obj1" class="com.model.Student" scope="prototype"></bean>
+        <bean id="obj2" class="com.model.Student"></bean>
+        </beans>
