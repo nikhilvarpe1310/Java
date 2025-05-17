@@ -1,13 +1,26 @@
 package com.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Student {
 	private int id;
 	private String name;
 	private String city;
 	private double percentage;
+	private List<Address> addresses = new ArrayList();
+	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
+	}
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + "]";
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + ", addresses="
+				+ addresses + "]";
 	}
 	public int getId() {
 		return id;
@@ -33,6 +46,7 @@ public class Student {
 	public void setPercentage(double percentage) {
 		this.percentage = percentage;
 	}
+	
 	
 
 }

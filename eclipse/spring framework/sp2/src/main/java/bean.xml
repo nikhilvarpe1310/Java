@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
         "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-        <beans>
-        <bean id="obj1" class="com.model.Student" scope="prototype"></bean>
-        </beans>
+      <beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+        </bean>
+        <bean id="a2" class="com.model.Address">
+         <property name="line1" value="Mahesh apartment"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student">
+        <property name="addresses"> 
+        <list>
+        <ref bean="a1"></ref>
+        <ref bean="a2"></ref>
+        </list>
+        </property>
+        </bean>
+ </beans>
+
+

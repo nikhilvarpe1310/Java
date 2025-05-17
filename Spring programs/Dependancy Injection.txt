@@ -1,0 +1,136 @@
+1)Constructor Injection
+eg.
+ <beans>
+        <bean id="s1" class="com.model.Student">
+        <constructor-arg type = "int" value = "10"></constructor-arg>
+        <constructor-arg type = "String" value= "Amit"></constructor-arg>
+        <constructor-arg  type = "String" value = "Solapur"></constructor-arg>
+        <constructor-arg type = "double" value = "88.26"></constructor-arg>
+        </bean>
+ </beans>
+
+2)Setter Injection
+eg.
+ <beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="id" value="10"></property>
+        <property name="name" value="Sagar"></property>
+        <property name="city" value="Sangamner"></property>
+        <property name="percentage" value="98.80"></property>
+        </bean>
+  </beans>
+
+**Setter Injection with Different datatypes
+1)setter injection with primitive datatype
+eg.
+<beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="id" value="10"></property>
+        <property name="name" value="Sagar"></property>
+        <property name="city" value="Sangamner"></property>
+        <property name="percentage" value="98.80"></property>
+        </bean>
+  </beans>
+
+2)setter injection with not primitive datatype
+eg.
+ <beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+         <property name="line2" value="Maheshnagar"></property>
+         <property name="city" value="Nashik"></property>
+         <property name="state" value="Maharashtra"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student">
+        <property name="address" ref="a1"> </property>
+        </bean>
+ </beans>
+
+3)Setter injection with array of primitive
+eg.
+ <beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="marks">
+        <list>
+        <value>10</value>
+        <value>20</value>
+        <value>30</value>
+        <value>40</value>
+        <value>50</value>
+        </list>
+       </property>
+        </bean>
+ </beans>
+
+OR
+<beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="marks" value="10,20,30,40,50">
+        </property>
+        </bean>
+ </beans>
+
+4)Setter injection with array of non primitive
+eg. <beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+         <property name="line2" value="Maheshnagar"></property>
+         <property name="city" value="Nashik"></property>
+         <property name="state" value="Maharashtra"></property>
+        </bean>
+        <bean id="a2" class="com.model.Address">
+         <property name="line1" value="Mahesh apartment"></property>
+         <property name="line2" value="ganeshnagar"></property>
+         <property name="city" value="pune"></property>
+         <property name="state" value="Maharashtra"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student">
+        <property name="adresses"> 
+        <list>
+        <ref bean="a1"></ref>
+        <ref bean="a2"></ref>
+        </list>
+        </property>
+        </bean>
+ </beans>
+
+5)setter injection with collection of primitive
+eg.
+ <beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="hobbies">
+        <list>
+        <value>cricket</value>
+        <value>swiming</value>
+        <value>reading</value>
+        </list>
+       </property>
+        </bean>
+ </beans>
+
+OR
+<beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="hobbies" value="cricket,swiming,reading">
+        </property>
+        </bean>
+ </beans>
+
+6)5)setter injection with collection of non-primitive
+eg.
+<beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+        </bean>
+        <bean id="a2" class="com.model.Address">
+         <property name="line1" value="Mahesh apartment"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student">
+        <property name="addresses"> 
+        <list>
+        <ref bean="a1"></ref>
+        <ref bean="a2"></ref>
+        </list>
+        </property>
+        </bean>
+ </beans>
