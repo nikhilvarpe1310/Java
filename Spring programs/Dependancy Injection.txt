@@ -116,7 +116,7 @@ OR
         </bean>
  </beans>
 
-6)5)setter injection with collection of non-primitive
+6)setter injection with collection of non-primitive
 eg.
 <beans>
         <bean id="a1" class="com.model.Address">
@@ -132,5 +132,86 @@ eg.
         <ref bean="a2"></ref>
         </list>
         </property>
+        </bean>
+ </beans>
+
+7)Setter injection with Map primitive
+eg.
+<beans>
+        <bean id="s1" class="com.model.Student">
+        <property name="colors"> 
+        <map>
+	<entry key="b" value="black"></entry>
+	<entry key="w" value="white"></entry>
+	<entry key="g" value="grey"></entry>
+        </map>
+        </property>
+        </bean>
+ </beans>
+
+8)Setter injection with Map non-primitive
+eg.
+<beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+        </bean>
+        <bean id="a2" class="com.model.Address">
+         <property name="line1" value="Mahesh apartment"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student">
+        <property name="details"> 
+        <map>
+        <entry key = "colors">
+        <list>
+        <value>black</value>
+         <value>white</value>
+          <value>grey</value>
+        </list>
+        </entry>
+        <entry key = "hobbies">
+        <list>
+        <value>cricket</value>
+         <value>swiming</value>
+          <value>reading</value>
+        </list>
+        </entry>
+        <entry key = "addresses">
+        <list>
+        <ref bean="a1"></ref>
+        <ref bean="a2"></ref>
+        </list>
+        </entry>
+        </map>
+        </property>
+        </bean>
+ </beans>
+
+
+# autowiring
+1)byType autowiring
+eg.
+ <beans>
+        <bean id="a1" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+         <property name="line2" value="Maheshnagar"></property>
+         <property name="city" value="Nashik"></property>
+         <property name="state" value="Maharashtra"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student" autowire = "byType">
+        
+        </bean>
+ </beans>
+
+2)byName autowiring
+eg.
+<beans>
+        <bean id="addresses" class="com.model.Address">
+         <property name="line1" value="ganesh apartment"></property>
+         <property name="line2" value="Maheshnagar"></property>
+         <property name="city" value="Nashik"></property>
+         <property name="state" value="Maharashtra"></property>
+        </bean>
+        <bean id="s1" class="com.model.Student" autowire = "byName">
+        
         </bean>
  </beans>

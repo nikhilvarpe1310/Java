@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
         "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
-      <beans>
-        <bean id="a1" class="com.model.Address">
+     <beans>
+        <bean id="addresses" class="com.model.Address">
          <property name="line1" value="ganesh apartment"></property>
+         <property name="line2" value="Maheshnagar"></property>
+         <property name="city" value="Nashik"></property>
+         <property name="state" value="Maharashtra"></property>
         </bean>
-        <bean id="a2" class="com.model.Address">
-         <property name="line1" value="Mahesh apartment"></property>
-        </bean>
-        <bean id="s1" class="com.model.Student">
-        <property name="addresses"> 
-        <list>
-        <ref bean="a1"></ref>
-        <ref bean="a2"></ref>
-        </list>
-        </property>
+        <bean id="s1" class="com.model.Student" autowire = "byName">
+        
         </bean>
  </beans>
 
