@@ -1,0 +1,159 @@
+//Crud using jdbc spring
+//App.java
+package com.demo;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.dao.StudentDao;
+import com.model.Student;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
+        StudentDao sd = context.getBean(StudentDao.class);
+        
+       List<Student> list = sd.findAllStudent();
+       for(Student s:list)
+    	   System.out.println(s);
+        
+    }
+}
+
+//Student.java
+package com.model;
+
+public class Student {
+	private int id;
+	private String name;
+	private String city;
+	private double percentage;
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+}
+
+
+//StudentDao.java
+package com.dao;
+
+import java.util.List;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import com.model.Student;
+import com.model.StudentRowMapper;
+
+public class StudentDao {
+	
+	private JdbcTemplate j;
+
+	public void setJ(JdbcTemplate j) {
+		this.j = j;
+	}
+	
+	public int insertStudent(Student s)
+	{
+		String sql="insert into student(name,city,percentage) values(?,?,?)";
+		return j.update(sql,new Object[] {s.getName(),s.getCity(),s.getPercentage()});
+	}
+	
+	public int deleteStudentById(int id)
+	{
+		String sql ="delete from student where id=?";
+		return j.update(sql,id);
+	}
+	
+	public Student findStudentById(int id)
+	{
+		String sql = "select id,name,city,percentage from Student where id=?";
+		List<Student> list = j.query(sql, new StudentRowMapper(),id);
+		return (!list.isEmpty())?list.get(0):null;
+	}
+
+	public List<Student> findAllStudent()
+	{
+		String sql = "select id,name,city,percentage from Student";
+		return j.query(sql, new StudentRowMapper());
+	}
+}
+
+
+//StudentRowMapper.java
+package com.model;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+
+public class StudentRowMapper implements RowMapper<Student> {
+
+	@Override
+	public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Student s = new Student();
+		s.setId(rs.getInt("id"));
+		s.setName(rs.getString("name"));
+		s.setCity(rs.getString("city"));
+		s.setPercentage(rs.getDouble("percentage"));
+		return s;
+	}
+
+	
+}
+
+
+//bean.xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+        "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+        <beans>
+        <bean id="sd" class="com.dao.StudentDao">
+        <property name="j" ref="jt"></property>
+        </bean>
+        
+        <bean id="jt" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="ds"></property>
+        </bean>
+        
+        <bean id="ds" 
+        	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" 
+        	value="com.mysql.cj.jdbc.Driver"></property>
+        <property name="url"
+        	value="jdbc:mysql://localhost:3306/jap77"></property>
+        <property name="username" value="root"></property>
+        <property name="password" value=""></property>
+        </bean>
+        
+        </beans>
