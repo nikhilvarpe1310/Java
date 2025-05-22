@@ -1,4 +1,4 @@
-//Crud using jdbc spring
+//Crud using jdbc spring xml
 //App.java
 package com.demo;
 

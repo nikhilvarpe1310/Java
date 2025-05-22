@@ -1,0 +1,92 @@
+//Spring annotations
+
+1)@Configuration
+eg.
+//MyConfiguration.java
+package com.config;
+
+import javax.swing.plaf.synth.SynthStyle;
+
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class MyConfiguration {
+	
+	public MyConfiguration()
+	{
+		System.out.println("we are in constructor");
+	}
+
+	
+
+}
+
+
+//App.java
+package com.demo;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.config.MyConfiguration;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfiguration.class);
+       
+        
+    }
+}
+
+2)@Bean
+eg.
+@Configuration
+public class MyConfiguration {
+	
+	@Bean(name = {"s1","s2","s3","s4"})
+	public Student m1()
+	{
+		System.out.println("m1 method called");
+		Student s1 = new Student();
+		s1.setId(10);
+		return s1;
+	}
+
+	
+
+3)@Scope
+eg.
+@Configuration
+public class MyConfiguration {
+	
+	@Bean
+	@Scope("singleton")
+	public Student m1()
+	{
+		System.out.println("m1 method called");
+		Student s1 = new Student();
+		s1.setId(10);
+		return s1;
+	}
+
+	
+4)@Component
+//That will be used on class initializers
+eg.
+@Component(value = "s1")
+@Scope("prototype")
+public class Student {
+	private int id;
+	private String name;
+	private String city;
+	private double percentage;
+
+5)@ComponentScan
+eg.
+@ComponentScan(basePackages = {"com.model"})
+
+6)@Autowired
+
+7)@Qualifier

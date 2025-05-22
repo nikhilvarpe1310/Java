@@ -2,18 +2,21 @@ package com.dao;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
 import com.model.Student;
 import com.model.StudentRowMapper;
 
+
+@Component
 public class StudentDao {
 	
+	@Autowired
 	private JdbcTemplate j;
 
-	public void setJ(JdbcTemplate j) {
-		this.j = j;
-	}
+	
 	
 	public int insertStudent(Student s)
 	{

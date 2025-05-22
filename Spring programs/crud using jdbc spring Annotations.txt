@@ -1,0 +1,153 @@
+//crud using jdbc spring Annotations
+eg.
+//MyConfiguration.java
+package com.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+@Configuration
+@ComponentScan(basePackages = {"com.dao"})
+public class MyConfiguration {
+	@Bean
+	public JdbcTemplate j()
+	{
+		JdbcTemplate j = new JdbcTemplate();
+		j.setDataSource(d1());
+		return j;	
+	}
+	
+	private DriverManagerDataSource d1()
+	{
+		DriverManagerDataSource	d = new DriverManagerDataSource();
+		d.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		d.setUrl("jdbc:mysql://localhost:3306/jap77");
+		d.setUsername("root");
+		d.setPassword("");
+		return d;
+	}
+	
+	
+
+}
+
+//Student.java
+eg.
+package com.model;
+
+public class Student {
+	private int id;
+	private String name;
+	private String city;
+	private double percentage;
+	
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", percentage=" + percentage + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public double getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+}
+
+
+//StudentDao.java
+eg.
+package com.dao;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+
+import com.model.Student;
+import com.model.StudentRowMapper;
+
+
+@Component
+public class StudentDao {
+	
+	@Autowired
+	private JdbcTemplate j;
+
+	
+	
+	public int insertStudent(Student s)
+	{
+		String sql="insert into student(name,city,percentage) values(?,?,?)";
+		return j.update(sql,new Object[] {s.getName(),s.getCity(),s.getPercentage()});
+	}
+	
+	public int deleteStudentById(int id)
+	{
+		String sql ="delete from student where id=?";
+		return j.update(sql,id);
+	}
+	
+	public Student findStudentById(int id)
+	{
+		String sql = "select id,name,city,percentage from Student where id=?";
+		List<Student> list = j.query(sql, new StudentRowMapper(),id);
+		return (!list.isEmpty())?list.get(0):null;
+	}
+
+	public List<Student> findAllStudent()
+	{
+		String sql = "select id,name,city,percentage from Student";
+		return j.query(sql, new StudentRowMapper());
+	}
+}
+
+//App.java
+eg.
+package com.demo;
+
+import java.util.List;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import com.config.MyConfiguration;
+import com.dao.StudentDao;
+import com.model.Student;
+
+public class App 
+{
+    public static void main( String[] args )
+    {
+        ApplicationContext context = new AnnotationConfigApplicationContext(MyConfiguration.class);
+       
+        StudentDao sd = context.getBean(StudentDao.class);
+        
+        List<Student> list = sd.findAllStudent();
+        for(Student s:list)
+     	   System.out.println(s);
+        
+    }
+}
