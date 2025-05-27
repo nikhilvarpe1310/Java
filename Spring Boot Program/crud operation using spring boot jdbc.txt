@@ -1,0 +1,190 @@
+//crud operation using spring boot jdbc
+//App.java
+//Insert
+ApplicationContext context = SpringApplication.run(Sb3Application.class, args);
+			EmployeeDao ed = context.getBean(EmployeeDao.class);
+			
+			Employee e = new Employee();
+			e.setName("Mahesh shinde");
+			e.setDesignation("fullstack developer");
+			e.setCompany("yardi");
+			e.setSalary(84000);
+			System.out.println(ed.insertEmployee(e));
+
+//delete
+ApplicationContext context = SpringApplication.run(Sb3Application.class, args);
+			EmployeeDao ed = context.getBean(EmployeeDao.class);
+			
+			System.out.println(ed.deleteEmployeeById(1));
+
+//findbyid
+ApplicationContext context = SpringApplication.run(Sb3Application.class, args);
+			EmployeeDao ed = context.getBean(EmployeeDao.class);
+			
+			System.out.println(ed.findEmployeeById(2));
+
+//findAllEmployee
+ApplicationContext context = SpringApplication.run(Sb3Application.class, args);
+			EmployeeDao ed = context.getBean(EmployeeDao.class);
+			
+			List<Employee> list = ed.findAllEmployee();
+			for(Employee e:list)
+				System.out.println(e);
+
+//update
+ApplicationContext context = SpringApplication.run(Sb3Application.class, args);
+			EmployeeDao ed = context.getBean(EmployeeDao.class);
+			
+			Employee e = ed.findEmployeeById(2);
+			e.setName("Amar Deshmukh");
+			System.out.println(ed.updateEmployee(e));
+
+//Employee.java
+package com.demo.model;
+
+public class Employee {
+	
+	private int id;
+	private String name;
+	private String designation;
+	private String company;
+	private double salary;
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", designation=" + designation + ", company=" + company
+				+ ", salary=" + salary + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	
+
+}
+
+
+//EmployeeDao.java
+package com.demo.dao;
+
+import java.util.List;
+
+import com.demo.model.Employee;
+
+public interface EmployeeDao {
+	
+	int insertEmployee(Employee e);
+	
+	int deleteEmployeeById(int id);
+	
+	Employee findEmployeeById(int id);
+	
+	List<Employee> findAllEmployee();
+	
+	int updateEmployee(Employee e);
+
+}
+
+
+//EmployeeDaoImpl.java
+package com.demo.dao;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.demo.model.Employee;
+import com.demo.model.EmployeeRowMapper;
+
+@Repository
+public class EmployeeDaoImpl implements EmployeeDao {
+	
+	@Autowired 
+	private JdbcTemplate j;
+
+	@Override
+	public int insertEmployee(Employee e) {
+		 String sql = "insert into Employee(name,designation,company,salary)values(?,?,?,?)";
+		 return j.update(sql,new Object[] {e.getName(),e.getDesignation(),e.getCompany(),e.getSalary()});
+	}
+
+	@Override
+	public int deleteEmployeeById(int id) {
+		String sql = "delete from Employee where id=?";
+		return j.update(sql,id);
+	}
+
+	@Override
+	public Employee findEmployeeById(int id) {
+		String sql = "select * from Employee where id=?";
+		List<Employee> list = j.query(sql, new EmployeeRowMapper(),id);
+		return (list.isEmpty()?null:list.get(0));
+	}
+
+	@Override
+	public List<Employee> findAllEmployee() {
+		String sql = "select * from Employee";
+		return j.query(sql, new EmployeeRowMapper());
+	}
+
+	@Override
+	public int updateEmployee(Employee e) {
+		String sql = "update Employee set name=?,designation=?,company=?,salary=? where id=?";
+		return j.update(sql,new Object[] {e.getName(),e.getDesignation(),e.getCompany(),e.getSalary(),e.getId()});
+	
+	}
+	
+
+}
+
+
+//EmployeeRowMapper.java
+package com.demo.model;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.jdbc.core.RowMapper;
+
+public class EmployeeRowMapper implements RowMapper <Employee> {
+
+	@Override
+	public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+		
+		Employee e = new Employee();
+		e.setId(rs.getInt("id"));
+		e.setName(rs.getString("name"));
+		e.setCompany(rs.getString("company"));
+		e.setDesignation(rs.getString("designation"));
+		e.setSalary(rs.getDouble("salary"));
+		return e;
+	}
+
+}
