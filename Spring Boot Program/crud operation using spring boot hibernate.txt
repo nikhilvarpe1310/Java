@@ -1,0 +1,194 @@
+//crud operation using spring boot hibernate
+//App.java
+//Insert
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		Employee e = new Employee();
+		e.setName("Saurabh Varpe");
+		e.setDesignation("Backend Developer");
+		e.setCompany("IBM");
+		e.setSalary(970000);
+		
+		System.out.println(es.save(e));
+
+//find element by id
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		Employee e = es.findById(5200);
+		System.out.println(e);
+
+//find by company
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		List<Employee> list = es.findByCompany("tcs");
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by salary
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		List<Employee> list = es.findBySalary(50000);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by salary less than
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		List<Employee> list = es.findBySalaryLessThan(50000);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by salary between
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		List<Employee> list = es.findBySalaryBetween(20000, 50000);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by salary in
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		List<Double> salary = new ArrayList();
+		salary.add(10000.0);
+		salary.add(28000.0);
+		salary.add(34000.0);
+		List<Employee> list = es.findBySalaryIn(salary);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+
+//find by name starts with
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.findByNameStartsWith("CUD");
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+//find by name ends with
+
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.findByNameEndsWith("tt");
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by name contains
+
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.findByNameContains("abc");
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by id and name
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		Employee e = es.findByIdAndName(5001, "CUDVGGMFHI");
+		System.out.println(e);
+
+//find by id or name
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.findByIdOrName(1, "fhfgfgahfg");
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by id not in
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.findByNotId(239);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by creating method
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.m1(239);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//find by creating method to copy hibernate query
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		List<Employee> list = es.m2(10);
+		for(Employee e:list)
+		{
+			System.out.println(e);
+		}
+
+//update
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		
+		Employee e = es.m2(11);
+		e.setName("mahendra");
+		System.out.println(es.save(e));
+
+//delete by id
+ApplicationContext context = SpringApplication.run(Sb5Application.class, args);
+		
+		EmployeeService es = context.getBean(EmployeeService.class);
+		
+		System.out.println(es.deleteById(10));
+
