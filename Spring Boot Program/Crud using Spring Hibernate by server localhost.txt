@@ -1,0 +1,389 @@
+//Crud using Spring Hibernate Annotation with application.properties with port web server
+//Employee.java
+package com.demo.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
+public class Employee {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private String designation;
+	private String company;
+	@Column(columnDefinition = "double(10,2)")
+	private double salary;
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", designation=" + designation + ", company=" + company
+				+ ", salary=" + salary + "]";
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDesignation() {
+		return designation;
+	}
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public double getSalary() {
+		return salary;
+	}
+	public void setSalary(double salary) {
+		this.salary = salary;
+	}
+	
+
+}
+
+//EmployeeDao.java
+package com.demo.dao;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import com.demo.model.Employee;
+
+@Repository
+public interface EmployeeDao extends JpaRepository<Employee, Integer> {
+	
+	List<Employee>findAll();
+	
+	Employee findById(int id);
+	
+	List<Employee>findByNameContains(String name);
+	
+	Employee findByIdAndName(int id,String name);
+	
+	List<Employee>findByIdOrName(int id,String name);
+	
+	List<Employee>findByIdLessThan(int id);
+	
+	List<Employee>findByIdBetween(int low,int high);
+	
+	@Query(value = "from Employee where id not between :a and :b")
+	List<Employee>findByIdNotBetween(@Param("a") int low,@Param("b") int high);
+	
+	@Query(value = "select name from Employee",nativeQuery = true)
+	List<String> findAllNames();
+	
+	@Query(value = "select designation from Employee",nativeQuery = true)
+	List<String> findAllDesignations();
+	
+	@Query(value = "select id,name,designation,company,salary from Employee where id like %?1% or name like %?1% or designation like %?1% or company like %?1% or salary like %?1%",nativeQuery = true)
+	List<Employee> findByAny(String s1);
+
+	@Query(value = "delete from Employee where id=:a")
+	@Modifying 
+	int deleteById(@Param("a") int id);
+	
+	Employee save(Employee e);  //save or update
+	
+}
+
+//EmployeeService.java
+package com.demo.service;
+
+import java.util.List;
+
+import org.springframework.data.repository.query.Param;
+
+import com.demo.model.Employee;
+
+public interface EmployeeService {
+	
+	List<Employee>findAll();
+	
+	Employee findById(int id);
+	
+	List<Employee>findByNameContains(String name);
+	
+	Employee findByIdAndName(int id,String name);
+	
+	List<Employee>findByIdOrName(int id,String name);
+	
+	List<Employee>findByIdLessThan(int id);
+	
+	List<Employee>findByIdBetween(int low,int high);
+	
+	List<Employee>findByIdNotBetween(int low,int high);
+	
+	List<String> findAllNames();
+	
+	List<String> findAllDesignations();
+	
+	List<Employee> findByAny(String s1);
+	
+	int deleteById(@Param("a") int id);
+	
+	Employee save(Employee e); 
+
+}
+
+
+//EmployeeServiceImpl.java
+
+package com.demo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.demo.dao.EmployeeDao;
+import com.demo.model.Employee;
+
+import jakarta.transaction.Transactional;
+
+@Service
+@Transactional
+public class EmployeeServiceImpl implements EmployeeService {
+
+	@Autowired
+	private EmployeeDao ed;
+	
+	
+	@Override
+	public List<Employee> findAll() {
+		return ed.findAll();
+	}
+
+
+	@Override
+	public Employee findById(int id) {
+		return ed.findById(id);
+	}
+
+
+	@Override
+	public List<Employee> findByNameContains(String name) {
+		return ed.findByNameContains(name);
+	}
+
+
+	@Override
+	public Employee findByIdAndName(int id, String name) {
+		return ed.findByIdAndName(id, name);
+	}
+
+
+	@Override
+	public List<Employee> findByIdOrName(int id, String name) {
+		return ed.findByIdOrName(id, name);
+	}
+
+
+	@Override
+	public List<Employee> findByIdLessThan(int id) {
+		return ed.findByIdLessThan(id);
+	}
+
+
+	@Override
+	public List<Employee> findByIdBetween(int low, int high) {
+		return ed.findByIdBetween(low, high);
+	}
+
+
+	@Override
+	public List<Employee> findByIdNotBetween(int low, int high) {
+		return ed.findByIdNotBetween(low, high);
+	}
+
+
+	@Override
+	public List<String> findAllNames() {
+		return ed.findAllNames();
+	}
+
+
+	@Override
+	public List<String> findAllDesignations() {
+		return ed.findAllDesignations();
+	}
+
+
+	@Override
+	public List<Employee> findByAny(String s1) {
+		return ed.findByAny(s1);
+	}
+
+
+	@Override
+	public int deleteById(int id) {
+		return ed.deleteById(id);
+	}
+
+
+	@Override
+	public Employee save(Employee e) {
+		return ed.save(e);
+	}
+
+}
+
+//EmployeeController.java
+package com.demo.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.demo.model.Employee;
+import com.demo.service.EmployeeService;
+
+@RestController
+public class EmployeeController {
+
+	@Autowired
+	private EmployeeService es;
+	
+	@GetMapping(value = "/")
+	public List<Employee> m1()
+	{
+		return es.findAll();
+	}
+	
+	@GetMapping(value = "/req1/{id}")
+	public Employee m2(@PathVariable int id)
+	{
+	return es.findById(id);
+	}
+	
+	@GetMapping(value = "/req2/{s1}")
+	public List<Employee> m3(@PathVariable String s1)
+	{
+		return es.findByNameContains(s1);
+	}
+	
+	@GetMapping(value = "/req3/{a}/{s1}")
+	public Employee m4(@PathVariable int a,@PathVariable String s1)
+	{
+		return es.findByIdAndName(a, s1);
+	}
+	
+	@GetMapping(value = "/req4/{a}/{s1}")
+	public List<Employee> m5(@PathVariable int a,@PathVariable String s1)
+	{
+		return es.findByIdOrName(a, s1);
+	}
+	
+	@GetMapping(value = "/req5/{id}")
+	public List<Employee> m6(@PathVariable int id)
+	{
+		return es.findByIdLessThan(id);
+	}
+	
+	@GetMapping(value = "/req6/{low}/{high}")
+	public List<Employee> m7(@PathVariable int low,@PathVariable int high)
+	{
+		return es.findByIdBetween(low,high);
+	}
+	
+	@GetMapping(value = "/req7/{low}/{high}")
+	public List<Employee> m8(@PathVariable int low,@PathVariable int high)
+	{
+		return es.findByIdNotBetween(low,high);
+	}
+	
+	@GetMapping(value = "/req8")
+	public List<String> m9()
+	{
+		return es.findAllNames();
+	}
+	
+	@GetMapping(value = "/req9")
+	public Map<String,List> m10()
+	{
+		Map<String,List> m = new HashMap();
+		m.put("list of names",es.findAllNames());
+		m.put("list of Designations", es.findAllDesignations());
+		return m;
+	}
+	
+	@GetMapping(value = "/req10/{s1}")
+	public List<Employee> m11(@PathVariable String s1)
+	{
+		return es.findByAny(s1);
+	}
+	
+	@DeleteMapping(value = "/req11/{id}")
+	public int m12(@PathVariable int id)
+	{
+	return es.deleteById(id);
+	}
+	
+	
+	@PostMapping(value = "/req12")
+	public Employee m13(@RequestBody Employee e)
+	{
+		return es.save(e);
+	}
+	
+	@PutMapping(value = "/req13")
+	public Employee m14(@RequestBody Employee e )
+	{
+		return es.save(e);
+	}
+	
+	
+}
+
+
+//Application.properties
+spring.application.name=sb6
+
+
+#server properties
+server.port=9020
+
+#database properties
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/jap77
+spring.datasource.username=root
+spring.datasource.password=
+
+#hibernate properties
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.hbm2ddl.auto=update
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.properties.hibernate.show_sql=true
+
+
+
